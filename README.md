@@ -58,15 +58,7 @@ When using Windbg Copilot, please be aware that any debugging input and output g
 
 Windbg Copilot project takes the privacy and security of user information seriously and endeavors to handle all data with utmost care and in accordance with applicable laws and regulations. Nevertheless, it is strongly recommended to refrain from providing any sensitive or confidential information while using Windbg Copilot.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 By using Windbg Copilot, you acknowledge and agree that any debugging input and output you generate may be transmitted to OpenAI or Azure OpenAI for research and development purposes. You also understand that Windbg Copilot should not be used with customer data and that Windbg Copilot project is not responsible for any consequences that may arise from the misuse or mishandling of such data.
-=======
-By using Windbg Copilot, you acknowledge and agree that any debugging input and output you generate may be transmitted to OpenAI or Azure OpepnAI for research and development purposes. You also understand that Windbg Copilot should not be used with customer data and that Windbg Copilot project is not responsible for any consequences that may arise from the misuse or mishandling of such data.
->>>>>>> 3a70859 (c)
-=======
-By using Windbg Copilot, you acknowledge and agree that any debugging input and output you generate may be transmitted to OpenAI or Azure OpenAI for research and development purposes. You also understand that Windbg Copilot should not be used with customer data and that Windbg Copilot project is not responsible for any consequences that may arise from the misuse or mishandling of such data.
->>>>>>> d7ba169 (c)
 
 Please ensure that you exercise caution and adhere to best practices when utilizing Windbg Copilot to ensure the privacy and security of your own data. Windbg Copilot project will not be held liable for any damages, losses, or unauthorized access resulting from the misuse of this application.
 
