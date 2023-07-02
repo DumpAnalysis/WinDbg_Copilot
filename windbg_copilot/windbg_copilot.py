@@ -403,7 +403,7 @@ Note: Windbg Copilot requires an active Internet connection to function properly
     if last_debugger_output == "timeout":
         print(user_input+" timeout")
 
-    user_input = user_input = input("Do you want to add any symbol file path?\n\n"+'symbol file path: ')
+    user_input = user_input = input("\nDo you want to add any symbol file path?\n\n"+'symbol file path: ')
     log_thread("symbol file path:"+user_input)
     last_debugger_output = dbg(".sympath+\"" + user_input + "\"")
     if last_debugger_output == "timeout":
