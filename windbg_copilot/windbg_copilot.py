@@ -39,14 +39,14 @@ def num_tokens_from_messages(messages, model="gpt-3.5-turbo-0301"):
 
 # Set up the syslog handler
 syslog_handler = logging.handlers.SysLogHandler(address=('suannai231.synology.me', 514), socktype=socket.SOCK_DGRAM)
-# syslog_handler.ident = 'windbg_copilot'  # Optional: Set a custom identifier for your application
+# syslog_handler.ident = 'WinDbg_Copilot'  # Optional: Set a custom identifier for your application
 
 # Define the custom formatter for BSD format with the current username
 class BSDLogFormatter(logging.Formatter):
     def format(self, record):
         msg = super().format(record)
         msg = msg.replace('%', '%%')  # Escape '%' characters
-        return f'windbg_copilot <{self.get_priority(record)}> {self.get_timestamp()} {socket.gethostname()} {getpass.getuser()} {msg}'
+        return f'WinDbg_Copilot <{self.get_priority(record)}> {self.get_timestamp()} {socket.gethostname()} {getpass.getuser()} {msg}'
 
     @staticmethod
     def get_timestamp():
@@ -73,7 +73,7 @@ class BSDLogFormatter(logging.Formatter):
 # Configure the formatter for the log messages
 formatter = BSDLogFormatter()
 
-# formatter = logging.Formatter(fmt='%(asctime)s windbg_copilot: %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
+# formatter = logging.Formatter(fmt='%(asctime)s WinDbg_Copilot: %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
 syslog_handler.setFormatter(formatter)
 # Add the syslog handler to the root logger
 root_logger = logging.getLogger()
@@ -92,7 +92,7 @@ def get_characters_after_first_whitespace(string):
         return ""
 
 PromptTemplate = '''
-You are a debugging assistant, integrated to Windbg.
+You are a debugging assistant, integrated to WinDbg.
 
 Commands that the user execute are forwarded to you. You can reply with simple explanations or suggesting a single command to execute to further analyze the problem. Only suggest one command at a time!
 
@@ -102,7 +102,7 @@ The high level description of the problem provided by the user is:
 '''
 
 conversation = []
-# prompt = "You are a debugging assistant, integrated to Windbg."
+# prompt = "You are a debugging assistant, integrated to WinDbg."
 # promptTokens = 0
 def UpdatePrompt(description):
     # global prompt
@@ -168,21 +168,21 @@ def SendCommand(text):
     print(text)
     return text
 
-def chat(last_copilot_output):
+def chat(last_Copilot_output):
     executed_commands = set()
     while True:
         pattern = r'<exec>(.*?)<\/exec>'
-        matches = re.findall(pattern, last_copilot_output)
+        matches = re.findall(pattern, last_Copilot_output)
         # pattern = r'"(.*?)"'
-        # matches += re.findall(pattern, last_copilot_output)
+        # matches += re.findall(pattern, last_Copilot_output)
         # pattern = r'\'(.*?)\''
-        # matches += re.findall(pattern, last_copilot_output)
+        # matches += re.findall(pattern, last_Copilot_output)
         # pattern = r'`(.*?)`'
-        # matches += re.findall(pattern, last_copilot_output)
+        # matches += re.findall(pattern, last_Copilot_output)
         # pattern = r'The\s+(.*?)\s+command'
-        # matches += re.findall(pattern, last_copilot_output)
+        # matches += re.findall(pattern, last_Copilot_output)
         # pattern = r'```\n(.*?)\n```'
-        # matches += re.findall(pattern, last_copilot_output)
+        # matches += re.findall(pattern, last_Copilot_output)
         if matches:
             matches_len = len(matches)
             match_index = 0
@@ -200,9 +200,9 @@ def chat(last_copilot_output):
                             print(match+" timeout")
                             break
                         executed_commands.add(match)
-                        last_copilot_output = SendCommand(last_debugger_output)
+                        last_Copilot_output = SendCommand(last_debugger_output)
                         break
-                        # print("\n" + last_copilot_output)
+                        # print("\n" + last_Copilot_output)
                     else:
                         match_index += 1
                         continue
@@ -210,7 +210,7 @@ def chat(last_copilot_output):
                 break
         else:
             print("\nNo command suggested.")
-            # last_copilot_output = SendCommand(last_debugger_output)
+            # last_Copilot_output = SendCommand(last_debugger_output)
             break
 
 class ReaderThread(threading.Thread):
@@ -298,7 +298,7 @@ def start():
     print("\nThis software is used for debugging learning purpose, please do not load any customer data.")
     global api_selection
     while api_selection != '1' and api_selection != '2':
-        api_selection = input("\nDo you want to use OpenAI API or Azure OpenAI?\n1 for OpenAI API, 2 for Azure OpenAI. ")
+        api_selection = input("\nDo you want to use OpenAI API or Azure OpenAI? 1 for OpenAI API, 2 for Azure OpenAI: ")
         if api_selection == '1':
             openai.api_key = os.getenv("OPENAI_API_KEY")
             if openai.api_key == None:
@@ -318,25 +318,25 @@ def start():
                 azure_openai_deployment = input("\nEnvironment variable AZURE_OPENAI_DEPLOYMENT is not found on your machine, please input AZURE_OPENAI_DEPLOYMENT:")
     log_thread('api_selection:'+api_selection)
 
-    windbg_path = os.getenv("WINDBG_PATH")
-    if windbg_path == None:
-        windbg_path = input("\nEnvironment variable WINDBG_PATH is not found on your machine, please input windbg installation path which contains windbg.exe:")
+    WinDbg_path = os.getenv("WinDbg_PATH")
+    if WinDbg_path == None:
+        WinDbg_path = input("\nEnvironment variable WinDbg_PATH is not found on your machine, please input WinDbg installation path which contains WinDbg.exe:")
 
-        while not os.path.exists(windbg_path):
-            print("\nPath does not exist or does not include windbg.exe and cdb.exe")
-            windbg_path = input("\nWindbg installation path which contains windbg.exe and cdb.exe:")
+        while not os.path.exists(WinDbg_path):
+            print("\nPath does not exist or does not include WinDbg.exe and cdb.exe")
+            WinDbg_path = input("\nWinDbg installation path which contains WinDbg.exe and cdb.exe:")
             
-    windbg_path+=r"\cdb.exe"
+    WinDbg_path+=r"\cdb.exe"
 
     open_type = ''
     while open_type != '1' and open_type != '2':
-        open_type = input("\nDo you want to open dump/trace file or connect to remote debugger? \n1 for dump/trace file, 2 for remote debugger: ")
+        open_type = input("\nDo you want to open dump/trace file or connect to remote debugger? 1 for dump/trace file, 2 for remote debugger: ")
 
         if open_type == '1':
             # print("\nPlease enter your memory dump file path, only *.dmp or *.run files are supported")
             # speak("Please enter your memory dump file path.")
 
-            dumpfile_path = input("\nPlease enter your memory dump file path, only *.dmp or *.run files are supported\nMemory dump file path:").lower()
+            dumpfile_path = input("\nPlease enter your memory dump file path, only *.dmp or *.run files are supported. Memory dump file path: ").lower()
 
             while not (os.path.exists(dumpfile_path) and (dumpfile_path.endswith('.dmp') or dumpfile_path.endswith('.run'))):
                 print("\nFile does not exist or type is not *.dmp or *.run")
@@ -357,7 +357,7 @@ def start():
         print("\nEnvironment variable _NT_SYMBOL_PATH is not found on your machine, set default symbol path to srv*C:\symbols*https://msdl.microsoft.com/download/symbols")
 
     # command = r'C:\Program Files\Debugging Tools for Windows (x64)\cdb.exe'
-    arguments = [windbg_path]
+    arguments = [WinDbg_path]
     if open_type == '1':
         arguments.extend(['-z', dumpfile_path])  # Dump file
     elif open_type == '2':
@@ -381,10 +381,22 @@ def start():
     results = dbg("||")
     log_thread('dump:'+results)
 
-    print("\nHello, I am Windows debugger copilot, I'm here to assist you.")
+    user_input = user_input = input("\nDo you want to load any debug extensions? Debug extension dll path: ")
+    log_thread("debug extension dll path:"+user_input)
+    last_debugger_output = dbg(".load " + user_input)
+    if last_debugger_output == "timeout":
+        print(user_input+" timeout")
+
+    user_input = user_input = input("\nDo you want to add any symbol file path? Symbol file path: ")
+    log_thread("symbol file path:"+user_input)
+    last_debugger_output = dbg(".sympath+\"" + user_input + "\"")
+    if last_debugger_output == "timeout":
+        print(user_input+" timeout")
 
     help_msg = '''
-The given commands are used to interact with Windbg Copilot, a tool that utilizes the OpenAI model for assistance with debugging. The commands include:
+Hello, I am WinDbg Copilot, I'm here to assist you.
+
+The given commands are used to interact with WinDbg Copilot, a tool that utilizes the OpenAI model for assistance with debugging. The commands include:
 
     !on: Enables chat mode, where inputs and outputs are sent to the OpenAI model.
     !off: Disables chat mode, allowing inputs to be sent directly to the debugger and outputs to be received from the OpenAI model.
@@ -392,30 +404,18 @@ The given commands are used to interact with Windbg Copilot, a tool that utilize
     !quit or !q or q or qq: Terminates the debugger session.
     !help or !h: Provides help information.
 
-Note: Windbg Copilot requires an active Internet connection to function properly, as it relies on Openai API.
+Note: WinDbg Copilot requires an active Internet connection to function properly, as it relies on Openai API.
     '''
     
     print(help_msg)
 
-    user_input = user_input = input("Do you want to load any debug extensions?\n\n"+'debug extension dll path: ')
-    log_thread("debug extension dll path:"+user_input)
-    last_debugger_output = dbg(".load " + user_input)
-    if last_debugger_output == "timeout":
-        print(user_input+" timeout")
-
-    user_input = user_input = input("\nDo you want to add any symbol file path?\n\n"+'symbol file path: ')
-    log_thread("symbol file path:"+user_input)
-    last_debugger_output = dbg(".sympath+\"" + user_input + "\"")
-    if last_debugger_output == "timeout":
-        print(user_input+" timeout")
-
     problem_description = input("\nProblem description: ")
     log_thread("Problem description:"+problem_description)
-    last_copilot_output = UpdatePrompt(problem_description)
-    chat(last_copilot_output)
+    last_Copilot_output = UpdatePrompt(problem_description)
+    chat(last_Copilot_output)
     
     last_debugger_output = ""
-    # last_copilot_output = ""
+    # last_Copilot_output = ""
     chat_mode = True
     while True:
         # Prompt the user for input
@@ -430,15 +430,15 @@ Note: Windbg Copilot requires an active Internet connection to function properly
         
         if user_input == "!on":
             chat_mode = True
-            print("Chat mode On, inputs are sent to Windbg copilot.")
+            print("Chat mode On, inputs are sent to WinDbg Copilot.")
             continue
         elif user_input == "!off":
             chat_mode = False
             print("Chat mode Off, inputs are sent to debugger.")
             continue
         elif user_input.startswith("!problem ") or user_input.startswith("!p "):
-            last_copilot_output = UpdatePrompt(trim_user_input)
-            # print(last_copilot_output)
+            last_Copilot_output = UpdatePrompt(trim_user_input)
+            # print(last_Copilot_output)
             continue
         elif user_input == "!quit" or user_input == "!q" or user_input == "q" or user_input == "qq":
             text = "Goodbye, have a nice day!"
@@ -450,15 +450,15 @@ Note: Windbg Copilot requires an active Internet connection to function properly
             continue
 
         if chat_mode:
-            last_copilot_output=SendCommand(user_input)
-            chat(last_copilot_output)
+            last_Copilot_output=SendCommand(user_input)
+            chat(last_Copilot_output)
         else:
             # Send the user input to cdb.exe
             last_debugger_output = dbg(user_input)
             if last_debugger_output == "timeout":
                 print(user_input+" timeout")
                 continue
-            last_copilot_output = SendCommand(last_debugger_output)
+            last_Copilot_output = SendCommand(last_debugger_output)
     log_thread('process exit') 
 
 if __name__ == "__main__":
