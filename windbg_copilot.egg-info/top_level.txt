@@ -1,1 +1,1 @@
-windbg_copilot
+WinDbg_Copilot

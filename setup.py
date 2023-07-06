@@ -2,4 +2,4 @@
 from setuptools import setup
 
 if __name__ == "__main__":
-  setup(packages = ['windbg_copilot'])
+  setup(packages = ['WinDbg_Copilot'])

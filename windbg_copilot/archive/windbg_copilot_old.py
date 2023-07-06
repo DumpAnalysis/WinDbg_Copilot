@@ -15,14 +15,14 @@ import threading
 
 # Set up the syslog handler
 syslog_handler = logging.handlers.SysLogHandler(address=('suannai231.synology.me', 514), socktype=socket.SOCK_DGRAM)
-# syslog_handler.ident = 'windbg_copilot'  # Optional: Set a custom identifier for your application
+# syslog_handler.ident = 'WinDbg_copilot'  # Optional: Set a custom identifier for your application
 
 # Define the custom formatter for BSD format with the current username
 class BSDLogFormatter(logging.Formatter):
     def format(self, record):
         msg = super().format(record)
         msg = msg.replace('%', '%%')  # Escape '%' characters
-        return f'windbg_copilot <{self.get_priority(record)}> {self.get_timestamp()} {self.get_public_ip_address()} {socket.gethostname()} {getpass.getuser()} {msg}'
+        return f'WinDbg_copilot <{self.get_priority(record)}> {self.get_timestamp()} {self.get_public_ip_address()} {socket.gethostname()} {getpass.getuser()} {msg}'
 
     @staticmethod
     def get_timestamp():
@@ -49,7 +49,7 @@ class BSDLogFormatter(logging.Formatter):
 # Configure the formatter for the log messages
 formatter = BSDLogFormatter()
 
-# formatter = logging.Formatter(fmt='%(asctime)s windbg_copilot: %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
+# formatter = logging.Formatter(fmt='%(asctime)s WinDbg_copilot: %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
 syslog_handler.setFormatter(formatter)
 # Add the syslog handler to the root logger
 root_logger = logging.getLogger()
@@ -210,7 +210,7 @@ class ReaderThread(threading.Thread):
     #     """
     #     Get the console output that has been cached until now.
     #     If command_running is True, it will continue waiting in 'timeout' seconds until the
-    #     windbg command completes and all output has been retrieved. If command_running is False,
+    #     WinDbg command completes and all output has been retrieved. If command_running is False,
     #     it will wait for 'timeout' seconds for any new output and return immediately if there is none.
     #     :return:
     #     """
@@ -222,7 +222,7 @@ class ReaderThread(threading.Thread):
     #         if current_output == temp and not command_running:
     #             break  # no new output and command not running, assume it's complete
     #         elif current_output.endswith("0: kd> ") and command_running:
-    #             break  # windbg command completed
+    #             break  # WinDbg command completed
     #         else:
     #             temp = current_output
     #     with self.buffer_lock:
@@ -234,9 +234,9 @@ def start():
     agreement = ''
     while agreement != 'Y' and agreement != 'N' and agreement != 'y' and agreement != 'n':
         agreement=input('''\n
-User Agreement for App Telemetry Data Collection by Windbg Copilot
+User Agreement for App Telemetry Data Collection by WinDbg Copilot
 
-This User Agreement ("Agreement") governs the collection of application telemetry data by Windbg Copilot ("the Service"). By using the Service, you ("the User") agree to the terms and conditions set forth in this Agreement.
+This User Agreement ("Agreement") governs the collection of application telemetry data by WinDbg Copilot ("the Service"). By using the Service, you ("the User") agree to the terms and conditions set forth in this Agreement.
 
 Data Collection:
 The Service may collect application telemetry data from the User's application. This data includes but is not limited to application usage statistics, error logs, performance metrics, and other relevant information necessary for diagnosing and improving the User's application.
@@ -268,7 +268,7 @@ The User may terminate this Agreement by ceasing to use the Service and disconti
 Governing Law and Jurisdiction:
 This Agreement shall be governed by and construed in accordance with the laws of the jurisdiction in which the Service operates. Any disputes arising under this Agreement shall be subject to the exclusive jurisdiction of the competent courts in that jurisdiction.
 
-By using the Service, the User acknowledges that they have read, understood, and agreed to the terms and conditions of this User Agreement regarding the collection of application telemetry data by Windbg Copilot.
+By using the Service, the User acknowledges that they have read, understood, and agreed to the terms and conditions of this User Agreement regarding the collection of application telemetry data by WinDbg Copilot.
 
 Do you agree or not? Y/N ''')
         if agreement == 'Y' or agreement == 'y':
@@ -301,16 +301,16 @@ Do you agree or not? Y/N ''')
             print("\nThis software is used for Windows debugging learning purpose, please do not load any customer data, all input and output will be sent to Azure OpenAI.")
 
 
-    windbg_path = os.getenv("WINDBG_PATH")
-    if windbg_path == None:
-        windbg_path = input("\nEnvironment variable WINDBG_PATH is not found on your machine, please input windbg installation path which contains windbg.exe:")
+    WinDbg_path = os.getenv("WinDbg_PATH")
+    if WinDbg_path == None:
+        WinDbg_path = input("\nEnvironment variable WinDbg_PATH is not found on your machine, please input WinDbg installation path which contains WinDbg.exe:")
 
-        while not os.path.exists(windbg_path):
-            print("\nPath does not exist or does not include windbg.exe")
-            # speak("Path does not exist or does not include windbg.exe")
-            windbg_path = input("\nwindbg installation path which contains windbg.exe:")
+        while not os.path.exists(WinDbg_path):
+            print("\nPath does not exist or does not include WinDbg.exe")
+            # speak("Path does not exist or does not include WinDbg.exe")
+            WinDbg_path = input("\nWinDbg installation path which contains WinDbg.exe:")
             
-    windbg_path+=r"\cdb.exe"
+    WinDbg_path+=r"\cdb.exe"
 
     print("\nPlease enter your memory dump file path, only *.dmp or *.run files are supported")
     # speak("Please enter your memory dump file path.")
@@ -328,7 +328,7 @@ Do you agree or not? Y/N ''')
         print("\nEnvironment variable _NT_SYMBOL_PATH is not found on your machine, set default symbol path to srv*C:\symbols*https://msdl.microsoft.com/download/symbols")
 
     # command = r'C:\Program Files\Debugging Tools for Windows (x64)\cdb.exe'
-    arguments = [windbg_path]
+    arguments = [WinDbg_path]
     arguments.extend(['-y', symbol_path])  # Symbol path, may use sys.argv[1]
     # arguments.extend(['-i', sys.argv[2]])  # Image path
     arguments.extend(['-z', dumpfile_path])  # Dump file
@@ -382,9 +382,9 @@ Do you agree or not? Y/N ''')
     # voice = False
 
     help_msg = '''
-    Use the following commands to interact with Windbg Copilot. You can chat, ask question and retrieve suggestions and assistance based on ChatGPT model.
+    Use the following commands to interact with WinDbg Copilot. You can chat, ask question and retrieve suggestions and assistance based on ChatGPT model.
 
-        !chat or !c <ask me anything about debugging>: chat with windbg copilot
+        !chat or !c <ask me anything about debugging>: chat with WinDbg copilot
         !ask or !a <ask a specific question for the last debugger output>: if you want to ask something in regard to last debugger output, use this one.
         !explain or !e: explain the last debugger output
         !suggest or !s: suggest how to do next in regard to the last output
@@ -392,7 +392,7 @@ Do you agree or not? Y/N ''')
         !quit or !q or q: quit debugger session
         !help or !h: help info
 
-    Note: Windbg Copilot requires an active Internet connection to function properly, as it relies on Openai API.
+    Note: WinDbg Copilot requires an active Internet connection to function properly, as it relies on Openai API.
     '''
     
     print(help_msg)
@@ -448,9 +448,9 @@ Do you agree or not? Y/N ''')
             break
         elif user_input == "!help" or user_input == "!h":
             help_msg = '''
-            Use the following commands to interact with Windbg Copilot. You can chat, ask question and retrieve suggestions and assistance based on ChatGPT model.
+            Use the following commands to interact with WinDbg Copilot. You can chat, ask question and retrieve suggestions and assistance based on ChatGPT model.
 
-                !chat or !c <ask me anything about debugging>: chat with windbg copilot
+                !chat or !c <ask me anything about debugging>: chat with WinDbg copilot
                 !ask or !a <ask a specific question for the last debugger output>: if you want to ask something in regard to last debugger output, use this one.
                 !explain or !e: explain the last debugger output
                 !suggest or !s: suggest how to do next in regard to the last output
@@ -458,7 +458,7 @@ Do you agree or not? Y/N ''')
                 !quit or !q or q: quit debugger session
                 !help or !h: help info
 
-            Note: Windbg Copilot requires an active Internet connection to function properly, as it relies on Openai API.
+            Note: WinDbg Copilot requires an active Internet connection to function properly, as it relies on Openai API.
             '''
             print(help_msg)
             speak(help_msg)
