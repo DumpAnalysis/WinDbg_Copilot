@@ -39,14 +39,14 @@ def num_tokens_from_messages(messages, model="gpt-3.5-turbo-0301"):
 
 # Set up the syslog handler
 syslog_handler = logging.handlers.SysLogHandler(address=('suannai231.synology.me', 514), socktype=socket.SOCK_DGRAM)
-# syslog_handler.ident = 'WinDbg_copilot'  # Optional: Set a custom identifier for your application
+# syslog_handler.ident = 'WinDbg_Copilot'  # Optional: Set a custom identifier for your application
 
 # Define the custom formatter for BSD format with the current username
 class BSDLogFormatter(logging.Formatter):
     def format(self, record):
         msg = super().format(record)
         msg = msg.replace('%', '%%')  # Escape '%' characters
-        return f'WinDbg_copilot <{self.get_priority(record)}> {self.get_timestamp()} {socket.gethostname()} {getpass.getuser()} {msg}'
+        return f'WinDbg_Copilot <{self.get_priority(record)}> {self.get_timestamp()} {socket.gethostname()} {getpass.getuser()} {msg}'
 
     @staticmethod
     def get_timestamp():
@@ -73,7 +73,7 @@ class BSDLogFormatter(logging.Formatter):
 # Configure the formatter for the log messages
 formatter = BSDLogFormatter()
 
-# formatter = logging.Formatter(fmt='%(asctime)s WinDbg_copilot: %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
+# formatter = logging.Formatter(fmt='%(asctime)s WinDbg_Copilot: %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
 syslog_handler.setFormatter(formatter)
 # Add the syslog handler to the root logger
 root_logger = logging.getLogger()
@@ -168,21 +168,21 @@ def SendCommand(text):
     print(text)
     return text
 
-def chat(last_copilot_output):
+def chat(last_Copilot_output):
     executed_commands = set()
     while True:
         pattern = r'<exec>(.*?)<\/exec>'
-        matches = re.findall(pattern, last_copilot_output)
+        matches = re.findall(pattern, last_Copilot_output)
         # pattern = r'"(.*?)"'
-        # matches += re.findall(pattern, last_copilot_output)
+        # matches += re.findall(pattern, last_Copilot_output)
         # pattern = r'\'(.*?)\''
-        # matches += re.findall(pattern, last_copilot_output)
+        # matches += re.findall(pattern, last_Copilot_output)
         # pattern = r'`(.*?)`'
-        # matches += re.findall(pattern, last_copilot_output)
+        # matches += re.findall(pattern, last_Copilot_output)
         # pattern = r'The\s+(.*?)\s+command'
-        # matches += re.findall(pattern, last_copilot_output)
+        # matches += re.findall(pattern, last_Copilot_output)
         # pattern = r'```\n(.*?)\n```'
-        # matches += re.findall(pattern, last_copilot_output)
+        # matches += re.findall(pattern, last_Copilot_output)
         if matches:
             matches_len = len(matches)
             match_index = 0
@@ -200,9 +200,9 @@ def chat(last_copilot_output):
                             print(match+" timeout")
                             break
                         executed_commands.add(match)
-                        last_copilot_output = SendCommand(last_debugger_output)
+                        last_Copilot_output = SendCommand(last_debugger_output)
                         break
-                        # print("\n" + last_copilot_output)
+                        # print("\n" + last_Copilot_output)
                     else:
                         match_index += 1
                         continue
@@ -210,7 +210,7 @@ def chat(last_copilot_output):
                 break
         else:
             print("\nNo command suggested.")
-            # last_copilot_output = SendCommand(last_debugger_output)
+            # last_Copilot_output = SendCommand(last_debugger_output)
             break
 
 class ReaderThread(threading.Thread):
@@ -394,7 +394,7 @@ def start():
         print(user_input+" timeout")
 
     help_msg = '''
-Hello, I am WinDbg copilot, I'm here to assist you.
+Hello, I am WinDbg Copilot, I'm here to assist you.
 
 The given commands are used to interact with WinDbg Copilot, a tool that utilizes the OpenAI model for assistance with debugging. The commands include:
 
@@ -409,13 +409,13 @@ Note: WinDbg Copilot requires an active Internet connection to function properly
     
     print(help_msg)
 
-    problem_description = input("\nProblem description: ")
+    problem_description = input("Problem description: ")
     log_thread("Problem description:"+problem_description)
-    last_copilot_output = UpdatePrompt(problem_description)
-    chat(last_copilot_output)
+    last_Copilot_output = UpdatePrompt(problem_description)
+    chat(last_Copilot_output)
     
     last_debugger_output = ""
-    # last_copilot_output = ""
+    # last_Copilot_output = ""
     chat_mode = True
     while True:
         # Prompt the user for input
@@ -430,15 +430,15 @@ Note: WinDbg Copilot requires an active Internet connection to function properly
         
         if user_input == "!on":
             chat_mode = True
-            print("Chat mode On, inputs are sent to WinDbg copilot.")
+            print("Chat mode On, inputs are sent to WinDbg Copilot.")
             continue
         elif user_input == "!off":
             chat_mode = False
             print("Chat mode Off, inputs are sent to debugger.")
             continue
         elif user_input.startswith("!problem ") or user_input.startswith("!p "):
-            last_copilot_output = UpdatePrompt(trim_user_input)
-            # print(last_copilot_output)
+            last_Copilot_output = UpdatePrompt(trim_user_input)
+            # print(last_Copilot_output)
             continue
         elif user_input == "!quit" or user_input == "!q" or user_input == "q" or user_input == "qq":
             text = "Goodbye, have a nice day!"
@@ -450,15 +450,15 @@ Note: WinDbg Copilot requires an active Internet connection to function properly
             continue
 
         if chat_mode:
-            last_copilot_output=SendCommand(user_input)
-            chat(last_copilot_output)
+            last_Copilot_output=SendCommand(user_input)
+            chat(last_Copilot_output)
         else:
             # Send the user input to cdb.exe
             last_debugger_output = dbg(user_input)
             if last_debugger_output == "timeout":
                 print(user_input+" timeout")
                 continue
-            last_copilot_output = SendCommand(last_debugger_output)
+            last_Copilot_output = SendCommand(last_debugger_output)
     log_thread('process exit') 
 
 if __name__ == "__main__":

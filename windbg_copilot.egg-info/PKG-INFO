@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: WinDbg-Copilot
-Version: 1.0.42
+Version: 1.0.44
 Summary: "WinDbg Copilot is a ChatGPT powered AI assistant integrated with WinDbg. It analyzes the output of the commands, and provides guidance to solve the stated problem."
 Home-page: https://github.com/suannai231/WinDbg_Copilot
 Author: Jack Yin
@@ -43,7 +43,7 @@ Installation
 
         Open a command prompt or terminal window, install the WinDbg Copilot package using pip:
 
-                pip install WinDbg_copilot
+                pip install WinDbg_Copilot
 
         The packages will be downloaded and installed automatically.
 
@@ -51,8 +51,8 @@ Usage
 
         Open your Python environment or editor and enter the following command:
 
-                import WinDbg_copilot as copilot
-                copilot.start()
+                import WinDbg_Copilot as Copilot
+                Copilot.start()
 
         The given commands are used to interact with WinDbg Copilot, a tool that utilizes the OpenAI model for assistance with debugging. The commands include:
 
@@ -69,7 +69,7 @@ Uninstallation
         Open a command prompt or terminal window.
         Use pip to uninstall the WinDbg Copilot package:
 
-                pip uninstall WinDbg_copilot
+                pip uninstall WinDbg_Copilot
 
         The packages will be uninstalled automatically.
 

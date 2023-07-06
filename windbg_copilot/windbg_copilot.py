@@ -409,7 +409,7 @@ Note: WinDbg Copilot requires an active Internet connection to function properly
     
     print(help_msg)
 
-    problem_description = input("\nProblem description: ")
+    problem_description = input("Problem description: ")
     log_thread("Problem description:"+problem_description)
     last_Copilot_output = UpdatePrompt(problem_description)
     chat(last_Copilot_output)
