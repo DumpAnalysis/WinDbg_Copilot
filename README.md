@@ -12,9 +12,9 @@ Prerequisites
                 AZURE_OPENAI_DEPLOYMENT = <Azure OpenAI Deployment Name>
         4. The Windows Debugger (WinDbg) installed on your machine, for example: C:\Program Files\Debugging Tools for Windows (x64)
            Add environment variable WinDbg_PATH = C:\Program Files\Debugging Tools for Windows (x64).
-        6. Add environment variable _NT_SYMBOL_PATH = srv*c:\symbols*https://msdl.microsoft.com/download/symbols
-        7. Python 3.9 or later installed on your machine.
-        8. An Internet connection for downloading and installing the package.
+           Add environment variable _NT_SYMBOL_PATH = srv*c:\symbols*https://msdl.microsoft.com/download/symbols
+        5. Python 3.9 or later installed on your machine.
+        6. An Internet connection for downloading and installing the package.
 
 Installation
 
