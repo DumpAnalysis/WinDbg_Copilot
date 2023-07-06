@@ -1,0 +1,14 @@
+LICENSE.txt
+MANIFEST.in
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+windbg_copilot/__init__.py
+windbg_copilot/version.py
+windbg_copilot/windbg_copilot.py
+windbg_copilot.egg-info/PKG-INFO
+windbg_copilot.egg-info/SOURCES.txt
+windbg_copilot.egg-info/dependency_links.txt
+windbg_copilot.egg-info/requires.txt
+windbg_copilot.egg-info/top_level.txt

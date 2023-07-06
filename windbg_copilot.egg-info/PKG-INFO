@@ -1,0 +1,89 @@
+Metadata-Version: 2.1
+Name: windbg-copilot
+Version: 1.0.41
+Summary: "Windbg Copilot is a ChatGPT powered AI assistant integrated with Windbg. It analyzes the output of the commands, and provides guidance to solve the stated problem."
+Home-page: https://github.com/suannai231/Windbg_Copilot
+Author: Jack Yin
+Author-email: suannai231@gmail.com
+License: MIT
+Keywords: windbg,copilot,chatgpt,openai
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+
+README for Windbg Copilot
+
+Windbg Copilot is a ChatGPT powered AI assistant integrated with Windbg. It analyzes the output of the commands, and provides guidance to solve the stated problem.
+
+Prerequisites
+
+        1. Operating System: Windows 11
+        2. If you want to use OpenAI API, add environmet variable OPENAI_API_KEY = <openai api key>
+        3. If you want to use Azure OpenAI, add following environment variables:
+                AZURE_OPENAI_ENDPOINT = <Azure OpenAI Endpoint>
+                AZURE_OPENAI_KEY = <Azure OpenAI Key>
+                AZURE_OPENAI_DEPLOYMENT = <Azure OpenAI Deployment Name>
+        4. The Windows Debugger (Windbg) installed on your machine, for example: C:\Program Files\Debugging Tools for Windows (x64)
+           Add environment variable WINDBG_PATH = C:\Program Files\Debugging Tools for Windows (x64).
+        6. Add environment variable _NT_SYMBOL_PATH = srv*c:\symbols*https://msdl.microsoft.com/download/symbols
+        7. Python 3.9 or later installed on your machine.
+        8. An Internet connection for downloading and installing the package.
+
+Installation
+
+        Open a command prompt or terminal window, install the Windbg Copilot package using pip:
+
+                pip install windbg_copilot
+
+        The packages will be downloaded and installed automatically.
+
+Usage
+
+        Open your Python environment or editor and enter the following command:
+
+                import windbg_copilot as copilot
+                copilot.start()
+
+        The given commands are used to interact with Windbg Copilot, a tool that utilizes the OpenAI model for assistance with debugging. The commands include:
+
+                !on: Enables chat mode, where inputs and outputs are sent to the OpenAI model.
+                !off: Disables chat mode, allowing inputs to be sent directly to the debugger and outputs to be received from the OpenAI model.
+                !p <problem statement>: Updates the problem description by providing a new problem statement.
+                !quit or !q or q or qq: Terminates the debugger session.
+                !help or !h: Provides help information.
+
+        Note: Windbg Copilot requires an active Internet connection to function properly, as it relies on Openai API.
+
+Uninstallation
+
+        Open a command prompt or terminal window.
+        Use pip to uninstall the Windbg Copilot package:
+
+                pip uninstall windbg_copilot
+
+        The packages will be uninstalled automatically.
+
+Disclaimer: Windbg Copilot
+
+Windbg Copilot is an application designed for debugging learning purposes only. It is important to note that this application should not be used to load or handle any customer data. Windbg Copilot is intended solely for the purpose of providing a platform for debugging practice and learning experiences.
+
+When using Windbg Copilot, please be aware that any debugging input and output generated during your debugging sessions will be sent to OpenAI or Azure OpenAI according to your selection. This data may be used for analysis and improvement of the application's performance and capabilities. However, it is crucial to understand that no customer data should be loaded or shared through Windbg Copilot.
+
+Windbg Copilot project takes the privacy and security of user information seriously and endeavors to handle all data with utmost care and in accordance with applicable laws and regulations. Nevertheless, it is strongly recommended to refrain from providing any sensitive or confidential information while using Windbg Copilot.
+
+By using Windbg Copilot, you acknowledge and agree that any debugging input and output you generate may be transmitted to OpenAI or Azure OpenAI for research and development purposes. You also understand that Windbg Copilot should not be used with customer data and that Windbg Copilot project is not responsible for any consequences that may arise from the misuse or mishandling of such data.
+
+Please ensure that you exercise caution and adhere to best practices when utilizing Windbg Copilot to ensure the privacy and security of your own data. Windbg Copilot project will not be held liable for any damages, losses, or unauthorized access resulting from the misuse of this application.
+
+By proceeding to use Windbg Copilot, you signify your understanding and acceptance of these terms and conditions.
+
