@@ -398,7 +398,7 @@ Hello, I am WinDbg Copilot, I'm here to assist you.
 
 The given commands are used to interact with WinDbg Copilot, a tool that utilizes the OpenAI model for assistance with debugging. The commands include:
 
-    !on: Enables chat mode, where inputs and outputs are sent to the OpenAI model.
+    !on: Enables chat mode, where inputs and outputs are sent to the OpenAI model. Copilot can reply with simple explanations or suggest a single command to execute to further analyze the problem. User will decide to execute the suggested command or not.
     !off: Disables chat mode, allowing inputs to be sent directly to the debugger and outputs to be received from the OpenAI model.
     !p <problem statement>: Updates the problem description by providing a new problem statement.
     !quit or !q or q or qq: Terminates the debugger session.
