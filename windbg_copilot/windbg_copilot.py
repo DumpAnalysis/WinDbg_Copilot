@@ -192,7 +192,8 @@ def chat(last_Copilot_output):
                 #     print("\n"+match+" had been executed.")
                 #     continue
                 # else:
-                confirm = input("\nDo you want to execute command: " + match + " (Y or N)?")
+                confirm = input("\nDo you want to execute command: " + match + "? Y or N: ")
+                print("\n")
                 if confirm == "Y" or confirm == "y" or confirm == "":
                     log_thread("execute command:"+match)
                     last_debugger_output = dbg(match)
@@ -268,6 +269,7 @@ def get_results():
         if int(elapsed_time) > 120:
             while True:
                 wait = input("\nFunction get_results timeout 120 seconds, do you want to wait longer? Y or N: ")
+                print("\n")
                 if wait == 'N' or wait == 'n':
                     return "timeout"
                 elif wait == 'Y' or wait == 'y' or wait == '':
@@ -345,7 +347,7 @@ def start():
                 # speak("File does not exist")
                 dumpfile_path = input("\nMemory dump file path:")
         elif open_type == '2':
-            connection_str = input("\nConnection String:")
+            connection_str = input("\nConnection String: ")
             pattern = r'^tcp:Port=(\d+),Server=[A-Za-z0-9\-]+$'
 
             while not re.match(pattern, connection_str):
@@ -384,6 +386,7 @@ def start():
     log_thread('dump:'+results)
 
     user_input = input("\nDo you want to load any debug extensions? Debug extension dll path: ")
+    print("\n")
     log_thread("debug extension dll path:"+user_input)
     last_debugger_output = dbg(".load " + user_input)
     if last_debugger_output == "timeout":
@@ -393,6 +396,7 @@ def start():
         PromptTemplate += "\ndebug extension " + user_input + " has been loaded."
 
     user_input = input("\nDo you want to add any symbol file path? Symbol file path: ")
+    print("\n")
     log_thread("symbol file path:"+user_input)
     last_debugger_output = dbg(".sympath+\"" + user_input + "\"")
     if last_debugger_output == "timeout":
