@@ -1,13 +1,13 @@
 Metadata-Version: 2.1
 Name: WinDbg-Copilot
-Version: 1.0.46
+Version: 1.0.47
 Summary: "WinDbg Copilot is a ChatGPT powered AI assistant integrated with WinDbg. It analyzes the output of the commands, and provides guidance to solve the stated problem."
 Home-page: https://github.com/suannai231/WinDbg_Copilot
+Download-URL: 
 Author: Jack Yin
 Author-email: suannai231@gmail.com
 License: MIT
 Keywords: WinDbg,Copilot,chatgpt,openai
-Platform: UNKNOWN
 Classifier: Development Status :: 5 - Production/Stable
 Classifier: Intended Audience :: Developers
 Classifier: Topic :: Software Development :: Build Tools
@@ -86,4 +86,3 @@ By using WinDbg Copilot, you acknowledge and agree that any debugging input and 
 Please ensure that you exercise caution and adhere to best practices when utilizing WinDbg Copilot to ensure the privacy and security of your own data. WinDbg Copilot project will not be held liable for any damages, losses, or unauthorized access resulting from the misuse of this application.
 
 By proceeding to use WinDbg Copilot, you signify your understanding and acceptance of these terms and conditions.
-

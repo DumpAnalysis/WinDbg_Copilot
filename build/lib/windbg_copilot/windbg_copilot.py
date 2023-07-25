@@ -146,7 +146,7 @@ def SendCommand(text):
     try:
         if api_selection == '1':
             response=openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-16k-0613",
+            model="gpt-4" if model_selection == '2' else "gpt-3.5-turbo-16k-0613",
             messages = conversation,
             max_tokens=max_response_tokens,
             temperature=0
@@ -302,25 +302,27 @@ def start():
         if api_selection == '1':
             openai.api_key = os.getenv("OPENAI_API_KEY")
             if openai.api_key == None:
-                openai.api_key = input("\nEnvironment variable OPENAI_API_KEY is not found on your machine, please input OPENAI_API_KEY:")
+                openai.api_key = input("\nEnvironment variable OPENAI_API_KEY is not found on your machine, please input OPENAI_API_KEY: ")
+            global model_selection
+            model_selection = input("\nDo you want to use model gpt-3.5-turbo-16k-0613 or model gpt-4? 1 for gpt-3.5-turbo-16k-0613, 2 for gpt-4: ")
         elif api_selection == '2':
             openai.api_type = "azure"
             openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
             if openai.api_base == None:
-                openai.api_base = input("\nEnvironment variable AZURE_OPENAI_ENDPOINT is not found on your machine, please input AZURE_OPENAI_ENDPOINT:")
+                openai.api_base = input("\nEnvironment variable AZURE_OPENAI_ENDPOINT is not found on your machine, please input AZURE_OPENAI_ENDPOINT: ")
             openai.api_version = "2023-05-15"
             openai.api_key = os.getenv("AZURE_OPENAI_KEY")
             if openai.api_key == None:
-                openai.api_key = input("\nEnvironment variable AZURE_OPENAI_KEY is not found on your machine, please input AZURE_OPENAI_KEY:")
+                openai.api_key = input("\nEnvironment variable AZURE_OPENAI_KEY is not found on your machine, please input AZURE_OPENAI_KEY: ")
             global azure_openai_deployment
             azure_openai_deployment=os.getenv("AZURE_OPENAI_DEPLOYMENT")
             if azure_openai_deployment == None:
-                azure_openai_deployment = input("\nEnvironment variable AZURE_OPENAI_DEPLOYMENT is not found on your machine, please input AZURE_OPENAI_DEPLOYMENT:")
+                azure_openai_deployment = input("\nEnvironment variable AZURE_OPENAI_DEPLOYMENT is not found on your machine, please input AZURE_OPENAI_DEPLOYMENT: ")
     log_thread('api_selection:'+api_selection)
 
     WinDbg_path = os.getenv("WinDbg_PATH")
     if WinDbg_path == None:
-        WinDbg_path = input("\nEnvironment variable WinDbg_PATH is not found on your machine, please input WinDbg installation path which contains WinDbg.exe:")
+        WinDbg_path = input("\nEnvironment variable WinDbg_PATH is not found on your machine, please input WinDbg installation path which contains WinDbg.exe: ")
 
         while not os.path.exists(WinDbg_path):
             print("\nPath does not exist or does not include WinDbg.exe and cdb.exe")

@@ -110,7 +110,7 @@ def UpdatePrompt(description):
     # prompt = PromptTemplate+description
     # promptTokens = num_tokens_from_string(prompt)
     global conversation
-    conversation.append({"role": "system", "content": PromptTemplate+description})
+    conversation.append({"role": "system", "content": PromptTemplate + " " + description})
     return SendCommand(None)
 
 
@@ -169,7 +169,7 @@ def SendCommand(text):
     return text
 
 def chat(last_Copilot_output):
-    executed_commands = set()
+    # executed_commands = set()
     while True:
         pattern = r'<exec>(.*?)<\/exec>'
         matches = re.findall(pattern, last_Copilot_output)
@@ -187,25 +187,25 @@ def chat(last_Copilot_output):
             matches_len = len(matches)
             match_index = 0
             for match in matches:
-                if match in executed_commands:
-                    match_index += 1
-                    print("\n"+match+" had been executed.")
-                    continue
-                else:
-                    confirm = input("\nDo you want to execute command: " + match + " (Y or N)?")
-                    if confirm == "Y" or confirm == "y" or confirm == "":
-                        log_thread("execute command:"+match)
-                        last_debugger_output = dbg(match)
-                        if last_debugger_output == "timeout":
-                            print(match+" timeout")
-                            break
-                        executed_commands.add(match)
-                        last_Copilot_output = SendCommand(last_debugger_output)
+                # if match in executed_commands:
+                #     match_index += 1
+                #     print("\n"+match+" had been executed.")
+                #     continue
+                # else:
+                confirm = input("\nDo you want to execute command: " + match + " (Y or N)?")
+                if confirm == "Y" or confirm == "y" or confirm == "":
+                    log_thread("execute command:"+match)
+                    last_debugger_output = dbg(match)
+                    if last_debugger_output == "timeout":
+                        print(match+" timeout")
                         break
-                        # print("\n" + last_Copilot_output)
-                    else:
-                        match_index += 1
-                        continue
+                    # executed_commands.add(match)
+                    last_Copilot_output = SendCommand(last_debugger_output)
+                    break
+                    # print("\n" + last_Copilot_output)
+                else:
+                    match_index += 1
+                    continue
             if match_index == matches_len:
                 break
         else:
@@ -383,13 +383,16 @@ def start():
     results = dbg("||")
     log_thread('dump:'+results)
 
-    user_input = user_input = input("\nDo you want to load any debug extensions? Debug extension dll path: ")
+    user_input = input("\nDo you want to load any debug extensions? Debug extension dll path: ")
     log_thread("debug extension dll path:"+user_input)
     last_debugger_output = dbg(".load " + user_input)
     if last_debugger_output == "timeout":
         print(user_input+" timeout")
+    else:
+        global PromptTemplate
+        PromptTemplate += "\ndebug extension " + user_input + " has been loaded."
 
-    user_input = user_input = input("\nDo you want to add any symbol file path? Symbol file path: ")
+    user_input = input("\nDo you want to add any symbol file path? Symbol file path: ")
     log_thread("symbol file path:"+user_input)
     last_debugger_output = dbg(".sympath+\"" + user_input + "\"")
     if last_debugger_output == "timeout":
