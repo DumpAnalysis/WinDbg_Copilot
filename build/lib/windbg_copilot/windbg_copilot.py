@@ -192,7 +192,8 @@ def chat(last_Copilot_output):
                 #     print("\n"+match+" had been executed.")
                 #     continue
                 # else:
-                confirm = input("\nDo you want to execute command: " + match + " (Y or N)?")
+                confirm = input("\nDo you want to execute command: " + match + "? Y or N: ")
+                print("\n")
                 if confirm == "Y" or confirm == "y" or confirm == "":
                     log_thread("execute command:"+match)
                     last_debugger_output = dbg(match)
@@ -268,6 +269,7 @@ def get_results():
         if int(elapsed_time) > 120:
             while True:
                 wait = input("\nFunction get_results timeout 120 seconds, do you want to wait longer? Y or N: ")
+                print("\n")
                 if wait == 'N' or wait == 'n':
                     return "timeout"
                 elif wait == 'Y' or wait == 'y' or wait == '':
@@ -295,7 +297,6 @@ def dbg(command):
 def start():
     log_thread('process start')
 
-    print("\nThis software is used for debugging learning purpose, please do not load any customer data.")
     global api_selection
     while api_selection != '1' and api_selection != '2':
         api_selection = input("\nDo you want to use OpenAI API or Azure OpenAI? 1 for OpenAI API, 2 for Azure OpenAI: ")
@@ -330,6 +331,7 @@ def start():
             
     WinDbg_path+=r"\cdb.exe"
 
+    print("\nThis software is used for debugging learning purpose, please do not load any customer data.")
     open_type = ''
     while open_type != '1' and open_type != '2':
         open_type = input("\nDo you want to open dump/trace file or connect to remote debugger? 1 for dump/trace file, 2 for remote debugger: ")
@@ -345,7 +347,7 @@ def start():
                 # speak("File does not exist")
                 dumpfile_path = input("\nMemory dump file path:")
         elif open_type == '2':
-            connection_str = input("\nConnection String:")
+            connection_str = input("\nConnection String: ")
             pattern = r'^tcp:Port=(\d+),Server=[A-Za-z0-9\-]+$'
 
             while not re.match(pattern, connection_str):
@@ -384,6 +386,7 @@ def start():
     log_thread('dump:'+results)
 
     user_input = input("\nDo you want to load any debug extensions? Debug extension dll path: ")
+    print("\n")
     log_thread("debug extension dll path:"+user_input)
     last_debugger_output = dbg(".load " + user_input)
     if last_debugger_output == "timeout":
@@ -393,6 +396,7 @@ def start():
         PromptTemplate += "\ndebug extension " + user_input + " has been loaded."
 
     user_input = input("\nDo you want to add any symbol file path? Symbol file path: ")
+    print("\n")
     log_thread("symbol file path:"+user_input)
     last_debugger_output = dbg(".sympath+\"" + user_input + "\"")
     if last_debugger_output == "timeout":
@@ -403,9 +407,9 @@ Hello, I am WinDbg Copilot, I'm here to assist you.
 
 The given commands are used to interact with WinDbg Copilot, a tool that utilizes the OpenAI model for assistance with debugging. The commands include:
 
-    !on: Enables chat mode, where inputs and outputs are sent to the OpenAI model. Copilot can reply with simple explanations or suggest a single command to execute to further analyze the problem. User will decide to execute the suggested command or not.
-    !off: Disables chat mode, allowing inputs to be sent directly to the debugger and outputs to be received from the OpenAI model.
-    !p <problem statement>: Updates the problem description by providing a new problem statement.
+    !chat: Chat mode, conversation will be sent to OpenAI ChatGPT model, ChatGPT can reply with simple explanations or suggest a single command to execute to further analyze the problem. User will decide to execute the suggested command or not.
+    !command: Command mode, user inputs are sent to debugger and debugger outputs will be sent to OpenAI ChatGPT model, ChatGPT can reply with simple explanations or suggest a single command to execute to further analyze the problem.
+    !problem <problem statement>: Updates the problem description by providing a new problem statement.
     !quit or !q or q or qq: Terminates the debugger session.
     !help or !h: Provides help information.
 
@@ -433,15 +437,15 @@ Note: WinDbg Copilot requires an active Internet connection to function properly
         log_thread("user_input:"+user_input)
         trim_user_input = get_characters_after_first_whitespace(user_input)
         
-        if user_input == "!on":
+        if user_input == "!chat":
             chat_mode = True
-            print("Chat mode On, inputs are sent to WinDbg Copilot.")
+            print("Chat mode, conversation will be sent to OpenAI ChatGPT model, ChatGPT can reply with simple explanations or suggest a single command to execute to further analyze the problem. User will decide to execute the suggested command or not.")
             continue
-        elif user_input == "!off":
+        elif user_input == "!command":
             chat_mode = False
-            print("Chat mode Off, inputs are sent to debugger.")
+            print("Command mode, user inputs are sent to debugger and debugger outputs will be sent to OpenAI ChatGPT model, ChatGPT can reply with simple explanations or suggest a single command to execute to further analyze the problem.")
             continue
-        elif user_input.startswith("!problem ") or user_input.startswith("!p "):
+        elif user_input.startswith("!problem "):
             last_Copilot_output = UpdatePrompt(trim_user_input)
             # print(last_Copilot_output)
             continue
