@@ -13,14 +13,14 @@ Prerequisites
         4. The Windows Debugger (WinDbg) installed on your machine, for example: C:\Program Files\Debugging Tools for Windows (x64)
            Add environment variable WinDbg_PATH = C:\Program Files\Debugging Tools for Windows (x64).
            Add environment variable _NT_SYMBOL_PATH = srv*c:\symbols*https://msdl.microsoft.com/download/symbols
-        5. Python 3.9 or later installed on your machine.
+        5. python >=3.9, <3.12 installed on your machine.
         6. An Internet connection for downloading and installing the package.
 
 Installation
 
         Open a command prompt or terminal window, install the WinDbg Copilot package using pip:
 
-                pip install WinDbg_Copilot
+                pip install WinDbg-Copilot
 
         The packages will be downloaded and installed automatically.
 
@@ -31,13 +31,15 @@ Usage
                 import WinDbg_Copilot as Copilot
                 Copilot.start()
 
+        Hello, I am WinDbg Copilot, I'm here to assist you.
+
         The given commands are used to interact with WinDbg Copilot, a tool that utilizes the OpenAI model for assistance with debugging. The commands include:
 
-                !on: Enables chat mode, where user inputs and debugger outputs are sent to the OpenAI model. WinDbg Copilot can reply with simple explanations or suggest a single command to execute to further analyze the problem. User will decide to execute the suggested command or not.
-                !off: Disables chat mode, allowing user inputs to be sent directly to the debugger and debugger outputs to be received from the OpenAI model.
-                !p <problem statement>: Updates the problem description by providing a new problem statement.
-                !quit or !q or q or qq: Terminates the debugger session.
-                !help or !h: Provides help information.
+        !chat: Chat mode, conversation will be sent to OpenAI ChatGPT model, ChatGPT can reply with simple explanations or suggest a single command to execute to further analyze the problem. User will decide to execute the suggested command or not.
+        !command: Command mode, user inputs are sent to debugger and debugger outputs will be sent to OpenAI ChatGPT model, ChatGPT can reply with simple explanations or suggest a single command to execute to further analyze the problem.
+        !problem <problem statement>: Updates the problem description by providing a new problem statement.
+        !quit or !q or q or qq: Terminates the debugger session.
+        !help or !h: Provides help information.
 
         Note: WinDbg Copilot requires an active Internet connection to function properly, as it relies on Openai API.
 
