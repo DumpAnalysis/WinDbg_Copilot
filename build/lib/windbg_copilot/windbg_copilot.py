@@ -7,7 +7,6 @@ import socket
 import openai
 import logging
 import logging.handlers
-import getpass
 import threading
 import tiktoken
 
@@ -46,7 +45,7 @@ class BSDLogFormatter(logging.Formatter):
     def format(self, record):
         msg = super().format(record)
         msg = msg.replace('%', '%%')  # Escape '%' characters
-        return f'WinDbg_Copilot <{self.get_priority(record)}> {self.get_timestamp()} {socket.gethostname()} {getpass.getuser()} {msg}'
+        return f'WinDbg_Copilot <{self.get_priority(record)}> {self.get_timestamp()} {msg}'
 
     @staticmethod
     def get_timestamp():
@@ -58,17 +57,6 @@ class BSDLogFormatter(logging.Formatter):
     def get_priority(record):
         priority = (record.levelno // 8) * 8  # Calculate the priority based on log level
         return priority + 1
-    
-    # @staticmethod
-    # def get_public_ip_address():
-    #     try:
-    #         response = requests.get('https://api.ipify.org?format=json')
-    #         if response.status_code == 200:
-    #             data = response.json()
-    #             return data['ip']
-    #     except requests.exceptions.RequestException:
-    #         pass
-    #     return 'Unknown'
     
 # Configure the formatter for the log messages
 formatter = BSDLogFormatter()
@@ -320,7 +308,7 @@ def start():
             if azure_openai_deployment == None:
                 azure_openai_deployment = input("\nEnvironment variable AZURE_OPENAI_DEPLOYMENT is not found on your machine, please input AZURE_OPENAI_DEPLOYMENT: ")
     log_thread('api_selection:'+api_selection)
-
+    log_thread('model_selection:'+model_selection)
     WinDbg_path = os.getenv("WinDbg_PATH")
     if WinDbg_path == None:
         WinDbg_path = input("\nEnvironment variable WinDbg_PATH is not found on your machine, please input WinDbg installation path which contains WinDbg.exe: ")

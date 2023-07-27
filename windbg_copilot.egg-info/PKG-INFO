@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: WinDbg-Copilot
-Version: 1.0.50
+Version: 1.0.51
 Summary: "WinDbg Copilot is a ChatGPT powered AI assistant integrated with WinDbg. It analyzes the output of the commands, and provides guidance to solve the stated problem."
 Home-page: https://github.com/suannai231/WinDbg_Copilot
 Download-URL: 
